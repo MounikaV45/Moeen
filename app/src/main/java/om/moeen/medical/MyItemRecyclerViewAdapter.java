@@ -2,6 +2,7 @@ package om.moeen.medical;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,25 +37,23 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String url = "";
                 if (myListData.getDescription().equalsIgnoreCase("Education")) {
-                    Intent i = new Intent(context, ConsultationActivity.class);
-                    i.putExtra("from", "Edu");
-                    context.startActivity(i);
+                    url = "https://edu.moeen.om/";
                 } else if (myListData.getDescription().equalsIgnoreCase("Family") ||
-                        myListData.getDescription().equalsIgnoreCase("Psychology") ||
-                        myListData.getDescription().equalsIgnoreCase("Social")) {
-                    Intent i = new Intent(context, ConsultationActivity.class);
-                    i.putExtra("from", "social");
-                    context.startActivity(i);
-                } else if (myListData.getDescription().equalsIgnoreCase("selfdevelopment")) {
-                    Intent i = new Intent(context, ConsultationActivity.class);
-                    i.putExtra("from", "selfdevelopment");
+                        myListData.getDescription().equalsIgnoreCase("Social") ||
+                        myListData.getDescription().equalsIgnoreCase("selfdevelopment")) {
+                    url = "https://family.moeen.om/";
+                } else if (myListData.getDescription().equalsIgnoreCase("Psychology")) {
+                    Intent i = new Intent(context, MainActivity.class);
                     context.startActivity(i);
                 } else {
-                    Intent i = new Intent(context, ConsultationActivity.class);
-                    i.putExtra("from", "legal");
-                    context.startActivity(i);
+                    url = "https://legal.moeen.om/";
                 }
+
+                Intent httpIntent = new Intent(Intent.ACTION_VIEW);
+                httpIntent.setData(Uri.parse(url));
+                context.startActivity(httpIntent);
             }
         });
     }
@@ -66,12 +65,10 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView imageView;
-        public TextView textView;
 
         public ViewHolder(View itemView) {
             super(itemView);
             this.imageView = itemView.findViewById(R.id.imageView);
-            this.textView = itemView.findViewById(R.id.textView);
         }
     }
 }
